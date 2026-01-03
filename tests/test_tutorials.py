@@ -8,10 +8,9 @@ They use mock LLMs for fast, deterministic testing.
 from __future__ import annotations
 
 import json
-from typing import Annotated
-from unittest.mock import MagicMock, patch
+import operator
+from typing import Annotated, List, Tuple
 
-import pytest
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.tools import tool
 from typing_extensions import TypedDict
@@ -416,7 +415,7 @@ class TestTutorial04HumanInTheLoop:
         graph = workflow.compile(checkpointer=memory, interrupt_before=["tools"])
 
         config = {"configurable": {"thread_id": "interrupt-test"}}
-        result = graph.invoke({"messages": [HumanMessage(content="Do something")]}, config=config)
+        graph.invoke({"messages": [HumanMessage(content="Do something")]}, config=config)
 
         # Should be paused before tools
         state = graph.get_state(config)
@@ -618,9 +617,6 @@ class TestTutorial05Reflection:
 
 
 # === Tutorial 06: Plan and Execute ===
-
-import operator
-from typing import List, Tuple
 
 
 class PlanExecuteState(TypedDict):

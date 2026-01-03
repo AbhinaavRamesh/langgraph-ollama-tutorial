@@ -50,13 +50,19 @@ class TestNotebookExecution:
         ids=lambda p: p.stem,
     )
     def test_notebook_executes(self, notebook_path: Path, kernel_name: str) -> None:
-        """Test that a notebook executes without errors."""
+        """Test that a notebook executes without errors.
+        
+        Uses a 600-second (10 minute) timeout to accommodate:
+        - Initial Ollama model downloads (can be several GB)
+        - Complex agent workflows with multiple LLM calls
+        - Resource-intensive operations in capstone projects
+        """
         with open(notebook_path) as f:
             nb = nbformat.read(f, as_version=4)
 
         client = NotebookClient(
             nb,
-            timeout=600,
+            timeout=600,  # 10 minutes for model downloads and complex workflows
             kernel_name=kernel_name,
         )
 
