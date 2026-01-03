@@ -1,0 +1,227 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "langgraph-ollama-local"
+version = "0.1.0"
+description = "Local agent building at scale using Ollama - comprehensive LangGraph patterns for local LLMs"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [
+    {name = "Abhinaav Ramesh"}
+]
+keywords = [
+    "langgraph",
+    "ollama",
+    "agents",
+    "llm",
+    "local",
+    "rag",
+    "react",
+    "multi-agent",
+    "langchain",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    # Core dependency - your ollama infrastructure
+    "ollama-local-serve[langgraph] @ file:///Users/abhinaavramesh/Desktop/Explore/ollama-local-serve",
+    # LangGraph essentials
+    "langgraph>=0.2.0",
+    "langchain-core>=0.1.0",
+    "langchain-community>=0.0.10",
+    # Async support
+    "aiohttp>=3.8.0",
+    # Configuration
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+# RAG dependencies - vector stores
+rag = [
+    "chromadb>=0.4.0",
+    "faiss-cpu>=1.7.0",
+    "sentence-transformers>=2.2.0",
+]
+
+# Persistence backends
+persistence = [
+    "redis>=5.0.0",
+    "asyncpg>=0.29.0",
+    "sqlalchemy[asyncio]>=2.0.0",
+    "aiosqlite>=0.19.0",
+]
+
+# Development dependencies
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+    "pre-commit>=3.0.0",
+    "httpx>=0.25.0",
+]
+
+# Jupyter notebooks
+notebooks = [
+    "jupyter>=1.0.0",
+    "ipykernel>=6.0.0",
+    "ipywidgets>=8.0.0",
+    "matplotlib>=3.7.0",
+]
+
+# All features
+all = [
+    "langgraph-ollama-local[rag,persistence,dev,notebooks]",
+]
+
+[project.urls]
+Homepage = "https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial"
+Repository = "https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial"
+Documentation = "https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial#readme"
+
+[project.scripts]
+langgraph-local = "langgraph_ollama_local.cli:main"
+
+[tool.setuptools]
+packages = [
+    "langgraph_ollama_local",
+    "langgraph_ollama_local.agents",
+    "langgraph_ollama_local.patterns",
+    "langgraph_ollama_local.rag",
+    "langgraph_ollama_local.memory",
+    "langgraph_ollama_local.streaming",
+]
+
+[tool.setuptools.package-data]
+langgraph_ollama_local = ["py.typed"]
+
+# Ruff configuration
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "ARG", # flake8-unused-arguments
+    "SIM", # flake8-simplify
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "ARG001", # unused function argument (common in interfaces)
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/*" = ["ARG001", "S101"]
+
+[tool.ruff.isort]
+known-first-party = ["langgraph_ollama_local", "ollama_local_serve"]
+
+# Black configuration (for compatibility)
+[tool.black]
+line-length = 100
+target-version = ['py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.mypy_cache
+  | \.ruff_cache
+  | \.venv
+  | _build
+  | build
+  | dist
+  | node_modules
+)/
+'''
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+follow_imports = "silent"
+ignore_missing_imports = true
+strict_optional = true
+
+[[tool.mypy.overrides]]
+module = [
+    "langchain.*",
+    "langchain_community.*",
+    "langchain_ollama.*",
+    "langgraph.*",
+    "chromadb.*",
+    "faiss.*",
+]
+ignore_missing_imports = true
+
+# Pytest configuration
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short -ra"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests requiring running Ollama",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["langgraph_ollama_local"]
+branch = true
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/cli.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+show_missing = true
