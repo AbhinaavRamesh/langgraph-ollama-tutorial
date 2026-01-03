@@ -343,6 +343,134 @@ class LocalAgentConfig(BaseSettings):
 # Convenience functions
 
 
+def pull_model(
+    model: str,
+    host: str = "127.0.0.1",
+    port: int = 11434,
+    timeout: int = 600,
+) -> bool:
+    """
+    Pull a model from Ollama registry.
+
+    This function pulls a model to the Ollama server, which is required
+    before using the model in tutorials.
+
+    Args:
+        model: The model name to pull (e.g., 'llama3.2:3b', 'llama3.1:8b').
+        host: The Ollama server host.
+        port: The Ollama server port.
+        timeout: Timeout in seconds for the pull operation.
+
+    Returns:
+        True if the model was pulled successfully, False otherwise.
+
+    Example:
+        >>> from langgraph_ollama_local import pull_model
+        >>> pull_model("llama3.2:3b")
+        Pulling model: llama3.2:3b...
+        Model llama3.2:3b pulled successfully!
+        True
+    """
+    import httpx
+
+    url = f"http://{host}:{port}/api/pull"
+    print(f"Pulling model: {model}...")
+
+    try:
+        with httpx.Client(timeout=timeout) as client:
+            response = client.post(
+                url,
+                json={"name": model},
+            )
+            response.raise_for_status()
+            print(f"Model {model} pulled successfully!")
+            return True
+    except httpx.TimeoutException:
+        print(f"Timeout pulling model {model}. Try increasing timeout.")
+        return False
+    except httpx.HTTPStatusError as e:
+        print(f"Error pulling model {model}: {e.response.status_code}")
+        return False
+    except Exception as e:
+        print(f"Error pulling model {model}: {e}")
+        return False
+
+
+def list_models(
+    host: str = "127.0.0.1",
+    port: int = 11434,
+) -> list[str]:
+    """
+    List available models on the Ollama server.
+
+    Args:
+        host: The Ollama server host.
+        port: The Ollama server port.
+
+    Returns:
+        List of model names available on the server.
+
+    Example:
+        >>> from langgraph_ollama_local import list_models
+        >>> list_models()
+        ['llama3.2:3b', 'mistral:7b']
+    """
+    import httpx
+
+    url = f"http://{host}:{port}/api/tags"
+
+    try:
+        with httpx.Client(timeout=30) as client:
+            response = client.get(url)
+            response.raise_for_status()
+            data = response.json()
+            return [m["name"] for m in data.get("models", [])]
+    except Exception as e:
+        print(f"Error listing models: {e}")
+        return []
+
+
+def ensure_model(
+    model: str,
+    host: str = "127.0.0.1",
+    port: int = 11434,
+) -> bool:
+    """
+    Ensure a model is available, pulling it if necessary.
+
+    This is useful at the start of tutorials to make sure the required
+    model is available before running.
+
+    Args:
+        model: The model name to ensure is available.
+        host: The Ollama server host.
+        port: The Ollama server port.
+
+    Returns:
+        True if the model is available (was already present or pulled).
+
+    Example:
+        >>> from langgraph_ollama_local import ensure_model
+        >>> ensure_model("llama3.2:3b")
+        Model llama3.2:3b is already available.
+        True
+    """
+    available = list_models(host=host, port=port)
+    if model in available:
+        print(f"Model {model} is already available.")
+        return True
+
+    # Try without tag if not found
+    base_model = model.split(":")[0]
+    matching = [m for m in available if m.startswith(base_model)]
+    if matching:
+        print(f"Model {model} not found, but found: {matching}")
+        return True
+
+    # Pull the model
+    return pull_model(model, host=host, port=port)
+
+
 def get_default_config() -> LocalAgentConfig:
     """
     Get the default LocalAgentConfig instance.

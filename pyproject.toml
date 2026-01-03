@@ -38,6 +38,7 @@ dependencies = [
     "ollama-local-serve[langgraph] @ file:///Users/abhinaavramesh/Desktop/Explore/ollama-local-serve",
     # LangGraph essentials
     "langgraph>=0.2.0",
+    "langgraph-checkpoint-sqlite>=2.0.0",
     "langchain-core>=0.1.0",
     "langchain-community>=0.0.10",
     # Async support
@@ -99,14 +100,7 @@ Documentation = "https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial#rea
 langgraph-local = "langgraph_ollama_local.cli:main"
 
 [tool.setuptools]
-packages = [
-    "langgraph_ollama_local",
-    "langgraph_ollama_local.agents",
-    "langgraph_ollama_local.patterns",
-    "langgraph_ollama_local.rag",
-    "langgraph_ollama_local.memory",
-    "langgraph_ollama_local.streaming",
-]
+packages = ["langgraph_ollama_local"]
 
 [tool.setuptools.package-data]
 langgraph_ollama_local = ["py.typed"]

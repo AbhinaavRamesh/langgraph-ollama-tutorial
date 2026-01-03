@@ -1,57 +1,33 @@
 # LangGraph Ollama Local
 
-**Local agent building at scale using Ollama** — A comprehensive collection of LangGraph patterns optimized for local LLM deployment.
+**Learn LangGraph by building agents that run entirely on your hardware.**
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## Overview
+## What This Is
 
-This repository provides production-ready LangGraph agent patterns that run entirely on local hardware using [Ollama](https://ollama.ai). It's designed for developers who want to:
+A hands-on tutorial series for building LangGraph agents with local LLMs via Ollama. Each notebook teaches a concept from scratch — no cloud APIs required.
 
-- Build AI agents without cloud API dependencies
-- Run agents on LAN-accessible servers for team development
-- Scale from laptop prototyping to multi-GPU production
-- Learn LangGraph patterns with working local examples
-
-**Powered by [ollama-local-serve](https://github.com/AbhinaavRamesh/ollama-local-serve)** — providing the infrastructure layer for Ollama connectivity, monitoring, and Kubernetes scaling.
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    langgraph-ollama-local                        │
-├─────────────────────────────────────────────────────────────────┤
-│  agents/        ReAct, Multi-agent, Hierarchical teams          │
-│  rag/           Self-RAG, CRAG, Adaptive RAG, Agentic RAG       │
-│  patterns/      Plan-Execute, Reflection, LATS, ReWOO           │
-│  memory/        Conversation history, Checkpointing             │
-│  streaming/     Token streaming, Event streaming                │
-├─────────────────────────────────────────────────────────────────┤
-│                         DEPENDS ON                               │
-├─────────────────────────────────────────────────────────────────┤
-│  ollama-local-serve                                              │
-│    ├── OllamaService, NetworkConfig                             │
-│    ├── LangChain/LangGraph integration                          │
-│    ├── OpenTelemetry metrics & tracing                          │
-│    └── Kubernetes autoscaling                                   │
-└─────────────────────────────────────────────────────────────────┘
-```
+**You'll learn:**
+- LangGraph fundamentals: StateGraph, nodes, edges, reducers
+- Tool calling and the ReAct pattern
+- Memory and conversation persistence
+- Human-in-the-loop workflows
+- Self-reflection and critique patterns
+- Plan-and-execute architectures
 
 ## Quick Start
 
 ### Prerequisites
 
 1. **Python 3.12+**
-2. **Ollama** installed and running:
+2. **Ollama** running locally or on your LAN:
    ```bash
-   # Install Ollama (macOS/Linux)
+   # Install Ollama
    curl -fsSL https://ollama.ai/install.sh | sh
-
-   # Start Ollama
-   ollama serve
 
    # Pull a model
    ollama pull llama3.2:3b
@@ -60,226 +36,118 @@ This repository provides production-ready LangGraph agent patterns that run enti
 ### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial.git
 cd langgraph-ollama-tutorial
 
-# Install in development mode
 pip install -e ".[dev]"
 
 # Verify connection
-make ollama-check
+langgraph-local check
 ```
 
-### Your First Agent
-
-```python
-from langgraph_ollama_local import LocalAgentConfig
-from langgraph.prebuilt import create_react_agent
-from langchain_core.tools import tool
-
-# Define a simple tool
-@tool
-def multiply(a: int, b: int) -> int:
-    """Multiply two numbers."""
-    return a * b
-
-# Create configuration (loads from environment/.env)
-config = LocalAgentConfig()
-
-# Create a chat client connected to your local Ollama
-llm = config.create_chat_client()
-
-# Build a ReAct agent
-agent = create_react_agent(llm, [multiply])
-
-# Run the agent
-result = agent.invoke({
-    "messages": [("user", "What is 7 times 8?")]
-})
-
-print(result["messages"][-1].content)
-```
-
-## Configuration
-
-All settings can be configured via environment variables or a `.env` file:
+### Configuration
 
 ```bash
-# Copy the example configuration
 cp .env.example .env
+# Edit .env with your Ollama server settings
 ```
-
-### Key Settings
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `OLLAMA_HOST` | `127.0.0.1` | Ollama server address (use IP for LAN) |
+| `OLLAMA_HOST` | `127.0.0.1` | Ollama server address |
 | `OLLAMA_PORT` | `11434` | Ollama server port |
-| `OLLAMA_MODEL` | `llama3.2:3b` | Default model for agents |
-| `OLLAMA_TIMEOUT` | `120` | Request timeout (seconds) |
-| `LANGGRAPH_RECURSION_LIMIT` | `25` | Max agent loop iterations |
+| `OLLAMA_MODEL` | `llama3.2:3b` | Default model |
 
-### LAN Server Setup
+### LAN Server with Monitoring
 
-To use a remote Ollama server on your network:
+To host Ollama on a GPU machine accessible across your local network (with monitoring dashboard, GPU metrics, and model management), use **[ollama-local-serve](https://github.com/AbhinaavRamesh/ollama-local-serve)**:
 
 ```bash
-# In .env
+pip install ollama-local-serve[all]
+
+# Start the full stack (Ollama + Dashboard + Metrics)
+make init && make up
+# Dashboard at http://your-server:3000
+```
+
+Then configure this tutorial repo to use your LAN server:
+```bash
+# .env
 OLLAMA_HOST=192.168.1.100
 OLLAMA_PORT=11434
 OLLAMA_MODEL=llama3.2:7b
 ```
 
-```python
-from langgraph_ollama_local import LocalAgentConfig
+**ollama-local-serve** provides:
+- Real-time monitoring dashboard
+- GPU utilization tracking
+- Request/response logging
+- Model management UI
+- OpenTelemetry metrics
 
-# Automatically loads from .env
-config = LocalAgentConfig()
-llm = config.create_chat_client()
+## Tutorials
+
+| # | Notebook | Documentation | What You'll Learn |
+|---|----------|---------------|-------------------|
+| 01 | [Chatbot Basics](examples/01_chatbot_basics.ipynb) | [docs](docs/01-chatbot-basics.md) | StateGraph, nodes, edges, message handling |
+| 02 | [Tool Calling](examples/02_tool_calling.ipynb) | [docs](docs/02-tool-calling.md) | Tools, ReAct loop from scratch |
+| 03 | [Memory & Persistence](examples/03_memory_persistence.ipynb) | [docs](docs/03-memory-persistence.md) | Checkpointers, threads, conversation history |
+| 04 | [Human-in-the-Loop](examples/04_human_in_the_loop.ipynb) | [docs](docs/04-human-in-the-loop.md) | Interrupts, approvals, resume |
+| 05 | [Reflection](examples/05_reflection.ipynb) | [docs](docs/05-reflection.md) | Generate → Critique → Revise loops |
+| 06 | [Plan & Execute](examples/06_plan_and_execute.ipynb) | [docs](docs/06-plan-and-execute.md) | Structured outputs, multi-step planning |
+| 07 | [Research Assistant](examples/07_research_assistant.ipynb) | [docs](docs/07-research-assistant.md) | Capstone: all patterns combined |
+
+Run any notebook:
+```bash
+jupyter lab examples/
 ```
 
 ## Project Structure
 
 ```
 langgraph-ollama-tutorial/
-├── langgraph_ollama_local/      # Main package
-│   ├── config.py                # Configuration management
-│   ├── cli.py                   # Command-line interface
-│   ├── agents/                  # Agent implementations
-│   │   ├── react.py             # ReAct agents
-│   │   ├── react_memory.py      # ReAct with conversation memory
-│   │   └── multi_agent.py       # Multi-agent collaboration
-│   ├── rag/                     # RAG patterns
-│   │   ├── self_rag.py          # Self-reflective RAG
-│   │   ├── crag.py              # Corrective RAG
-│   │   └── adaptive.py          # Adaptive RAG
-│   ├── patterns/                # Advanced patterns
-│   │   ├── plan_execute.py      # Plan-and-Execute
-│   │   ├── reflection.py        # Self-reflection
-│   │   └── lats.py              # Language Agent Tree Search
-│   ├── memory/                  # Persistence
-│   └── streaming/               # Streaming utilities
-├── examples/                    # Jupyter notebooks
-├── tests/                       # Test suite
-├── Makefile                     # Development commands
-└── pyproject.toml               # Package configuration
+├── examples/                    # Tutorial notebooks (start here!)
+│   ├── 01_chatbot_basics.ipynb
+│   ├── 02_tool_calling.ipynb
+│   ├── 03_memory_persistence.ipynb
+│   ├── 04_human_in_the_loop.ipynb
+│   ├── 05_reflection.ipynb
+│   ├── 06_plan_and_execute.ipynb
+│   └── 07_research_assistant.ipynb
+├── docs/                        # Detailed documentation
+│   ├── 01-chatbot-basics.md
+│   ├── ...
+│   └── images/                  # Graph visualizations
+├── langgraph_ollama_local/      # Helper library
+│   ├── config.py                # Configuration + model management
+│   └── cli.py                   # CLI tools
+├── scripts/                     # Utility scripts
+│   └── generate_diagrams.py     # Generate graph visualizations
+├── tests/                       # Test suite (46 tests)
+└── pyproject.toml
 ```
 
-## Available Patterns
+## CLI
 
-### Core Agents (Phase 2)
-- **ReAct Agent** — Reasoning + Acting with tool use
-- **ReAct with Memory** — Persistent conversation history
-- **ReAct with HITL** — Human-in-the-loop approval
-- **Tool Calling** — Robust error handling and retries
-
-### RAG Patterns (Phase 3)
-- **Self-RAG** — Self-reflective retrieval with grading
-- **CRAG** — Corrective RAG with web fallback
-- **Adaptive RAG** — Query-based strategy routing
-- **Agentic RAG** — Multi-step retrieval planning
-
-### Multi-Agent (Phase 4)
-- **Collaboration** — Agents working together
-- **Hierarchical Teams** — Nested team structures
-- **Subgraphs** — Composable agent graphs
-
-### Advanced Reasoning (Phase 5)
-- **Plan-and-Execute** — Two-phase planning
-- **Reflection** — Self-critique loops
-- **Reflexion** — Learning from failures
-- **LATS** — Monte Carlo Tree Search
-- **ReWOO** — Reasoning Without Observations
+```bash
+langgraph-local check    # Verify Ollama connection
+langgraph-local config   # Show current configuration
+langgraph-local list     # List available examples
+```
 
 ## Development
 
 ```bash
-# Install with all dependencies
-make install-all
-
-# Run tests
-make test
-
-# Run linting
-make lint
-
-# Format code
-make format
-
-# Check Ollama connection
-make ollama-check
-
-# Show current configuration
-make show-config
+make test          # Run tests
+make test-int      # Integration tests (requires Ollama)
+make lint          # Linting
+make format        # Format code
 ```
 
-### Running Tests
+## Adapted From
 
-```bash
-# All tests
-make test
-
-# Quick tests (no coverage)
-make test-quick
-
-# Integration tests (requires Ollama)
-make test-int
-
-# With coverage report
-make test-cov
-```
-
-## CLI Usage
-
-```bash
-# Check Ollama connectivity
-langgraph-local check
-
-# Show configuration
-langgraph-local config
-
-# List available examples
-langgraph-local list
-
-# Run an example
-langgraph-local run react-agent
-```
-
-## Model Recommendations
-
-| Use Case | Model | Notes |
-|----------|-------|-------|
-| Development/Testing | `llama3.2:1b` | Fast iteration, low memory |
-| General Use | `llama3.2:3b` | Good balance |
-| Production | `llama3.2:7b` | Better reasoning |
-| Complex Tasks | `llama3.1:70b` | Requires significant GPU |
-
-## Related Projects
-
-- **[ollama-local-serve](https://github.com/AbhinaavRamesh/ollama-local-serve)** — Infrastructure layer powering this repository
-- **[LangGraph](https://github.com/langchain-ai/langgraph)** — Framework for building stateful agents
-- **[Ollama](https://ollama.ai)** — Local LLM runtime
-
-## Roadmap
-
-- [x] **Phase 1**: Repository foundation, configuration, tooling
-- [ ] **Phase 2**: Core agent patterns (ReAct, memory, HITL)
-- [ ] **Phase 3**: RAG patterns (Self-RAG, CRAG, Adaptive)
-- [ ] **Phase 4**: Multi-agent patterns
-- [ ] **Phase 5**: Advanced reasoning (LATS, ReWOO, Reflection)
-- [ ] **Phase 6**: Streaming and persistence
-- [ ] **Phase 7**: Docker and infrastructure integration
-- [ ] **Phase 8**: Documentation and examples
-
-## Contributing
-
-Contributions are welcome! Please read the contributing guidelines before submitting PRs.
+These tutorials are adapted from the official [LangGraph documentation](https://langchain-ai.github.io/langgraph/) (MIT License), optimized for local Ollama deployment.
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
-
----
-
-**Built for local-first AI development.**
+MIT License

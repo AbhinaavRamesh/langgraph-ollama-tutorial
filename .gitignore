@@ -210,3 +210,4 @@ __marimo__/
 Plan.md
 .checkpoints/
 *.local.py
+temp_*.py
