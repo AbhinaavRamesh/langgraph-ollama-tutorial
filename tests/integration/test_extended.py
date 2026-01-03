@@ -10,7 +10,6 @@ from __future__ import annotations
 import json
 import time
 from typing import Annotated
-from unittest.mock import MagicMock
 
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
@@ -34,10 +33,11 @@ def ollama_available():
     import httpx
 
     try:
-        response = httpx.get("http://192.168.1.114:11434/api/tags", timeout=5)
+        response = httpx.get("http://localhost:11434/api/tags", timeout=5)
         if response.status_code == 200:
             return True
     except Exception:
+        # Ollama server not available or connection failed
         pass
     pytest.skip("Ollama server not available")
 
@@ -49,7 +49,7 @@ def llm(ollama_available):
 
     return ChatOllama(
         model="llama3.1:8b",
-        base_url="http://192.168.1.114:11434",
+        base_url="http://localhost:11434",
         temperature=0,
     )
 
