@@ -24,14 +24,16 @@ class TestOllamaConfig:
 
     def test_default_values(self) -> None:
         """Test default configuration values."""
-        config = OllamaConfig()
-        assert config.host == "127.0.0.1"
-        assert config.port == 11434
-        assert config.model == "llama3.2:3b"
-        assert config.timeout == 120
-        assert config.max_retries == 3
-        assert config.temperature == 0.0
-        assert config.num_ctx == 4096
+        # Clear env vars to test true defaults
+        with patch.dict(os.environ, {}, clear=True):
+            config = OllamaConfig(_env_file=None)
+            assert config.host == "127.0.0.1"
+            assert config.port == 11434
+            assert config.model == "llama3.2:3b"
+            assert config.timeout == 120
+            assert config.max_retries == 3
+            assert config.temperature == 0.0
+            assert config.num_ctx == 4096
 
     def test_custom_values(self) -> None:
         """Test custom configuration values."""
@@ -106,10 +108,12 @@ class TestLangGraphConfig:
 
     def test_default_values(self) -> None:
         """Test default configuration values."""
-        config = LangGraphConfig()
-        assert config.recursion_limit == 25
-        assert config.enable_streaming is True
-        assert config.thread_id_prefix == "thread"
+        # Clear env vars to test true defaults
+        with patch.dict(os.environ, {}, clear=True):
+            config = LangGraphConfig(_env_file=None)
+            assert config.recursion_limit == 25
+            assert config.enable_streaming is True
+            assert config.thread_id_prefix == "thread"
 
     def test_checkpoint_dir_creation(self, tmp_path: Path) -> None:
         """Test that checkpoint directory is created."""

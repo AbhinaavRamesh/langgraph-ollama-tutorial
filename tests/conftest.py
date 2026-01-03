@@ -12,6 +12,11 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+
+# Load .env file at import time for integration tests
+from dotenv import load_dotenv
+
+load_dotenv()
 from typing import TYPE_CHECKING, Any
 from unittest.mock import AsyncMock, MagicMock
 
@@ -29,11 +34,12 @@ if TYPE_CHECKING:
 
 @pytest.fixture(scope="session", autouse=True)
 def test_env() -> None:
-    """Set up test environment variables."""
-    # Use test-specific settings
-    os.environ.setdefault("OLLAMA_HOST", "127.0.0.1")
-    os.environ.setdefault("OLLAMA_PORT", "11434")
-    os.environ.setdefault("OLLAMA_MODEL", "llama3.2:1b")
+    """Set up test environment variables.
+
+    Note: OLLAMA_HOST and OLLAMA_PORT are NOT set here to allow .env
+    configuration for integration tests against LAN servers.
+    """
+    # Only set test-specific settings that don't affect connectivity
     os.environ.setdefault("OLLAMA_TIMEOUT", "30")
     os.environ.setdefault("LANGGRAPH_RECURSION_LIMIT", "10")
 
@@ -203,8 +209,10 @@ def ollama_available() -> bool:
     """Check if Ollama is available for integration tests."""
     try:
         import httpx
+        from langgraph_ollama_local.config import LocalAgentConfig
 
-        response = httpx.get("http://127.0.0.1:11434/api/tags", timeout=2)
+        config = LocalAgentConfig()
+        response = httpx.get(f"{config.ollama.base_url}/api/tags", timeout=5)
         return response.status_code == 200
     except Exception:
         return False
@@ -234,11 +242,15 @@ def pytest_collection_modifyitems(
 
     for item in items:
         if "integration" in item.keywords:
-            # Check if Ollama is available
+            # Check if Ollama is available using configured host
             try:
                 import httpx
+                from langgraph_ollama_local.config import LocalAgentConfig
 
-                response = httpx.get("http://127.0.0.1:11434/api/tags", timeout=2)
+                agent_config = LocalAgentConfig()
+                response = httpx.get(
+                    f"{agent_config.ollama.base_url}/api/tags", timeout=5
+                )
                 if response.status_code != 200:
                     item.add_marker(skip_integration)
             except Exception:

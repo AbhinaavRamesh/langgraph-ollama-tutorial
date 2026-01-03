@@ -42,7 +42,8 @@ class TestOllamaConnection:
             pytest.skip("Ollama not available")
 
         config = LocalAgentConfig()
-        client = config.create_chat_client(model="llama3.2:1b")
+        # Use the configured model (from .env or defaults)
+        client = config.create_chat_client()
 
         response = client.invoke("Say 'hello' and nothing else.")
         assert response is not None
