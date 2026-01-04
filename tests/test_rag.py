@@ -6,7 +6,7 @@ and embedding models where possible.
 """
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 from pathlib import Path
 from langchain_core.documents import Document
 

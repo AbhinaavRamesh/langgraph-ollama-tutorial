@@ -6,11 +6,9 @@ that are not covered by the basic unit tests.
 """
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock, PropertyMock
+from unittest.mock import Mock, patch
 from pathlib import Path
 from langchain_core.documents import Document
-import tempfile
-import os
 
 
 # =============================================================================

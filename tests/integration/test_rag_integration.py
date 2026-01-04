@@ -11,7 +11,6 @@ Run with: pytest tests/integration/test_rag_integration.py -v
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 from typing import List
 
@@ -37,6 +36,7 @@ def ollama_available():
         if response.status_code == 200:
             return True
     except Exception:
+        # Ollama server is not available - test will be skipped
         pass
     pytest.skip("Ollama server not available")
 

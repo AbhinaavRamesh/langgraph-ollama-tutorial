@@ -12,7 +12,7 @@ Usage:
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Annotated, List, Optional
+from typing import Annotated, List
 
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.message import add_messages
