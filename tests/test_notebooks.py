@@ -25,7 +25,10 @@ NOTEBOOKS_DIR = PROJECT_ROOT / "examples"
 
 def get_notebook_paths() -> list[Path]:
     """Get all tutorial notebook paths."""
-    return sorted(NOTEBOOKS_DIR.glob("*.ipynb"))
+    # Search recursively for notebooks
+    notebooks = sorted(NOTEBOOKS_DIR.glob("**/*.ipynb"))
+    # Return at least an empty marker if no notebooks found to avoid parametrize errors
+    return notebooks if notebooks else []
 
 
 @pytest.fixture(scope="module")

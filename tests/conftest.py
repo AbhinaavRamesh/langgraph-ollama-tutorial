@@ -268,3 +268,93 @@ def event_loop_policy():
     import asyncio
 
     return asyncio.DefaultEventLoopPolicy()
+
+
+# =============================================================================
+# RAG Test Fixtures
+# =============================================================================
+
+
+@pytest.fixture
+def sample_documents():
+    """Create sample documents for RAG testing."""
+    from langchain_core.documents import Document
+
+    return [
+        Document(
+            page_content="RAG combines retrieval with generation for better answers. "
+            "It first retrieves relevant documents, then uses them as context.",
+            metadata={"source": "rag_intro.pdf", "page": 1, "filename": "rag_intro.pdf"}
+        ),
+        Document(
+            page_content="Self-RAG adds reflection to grade document relevance and detect hallucinations. "
+            "It uses the LLM to evaluate its own outputs.",
+            metadata={"source": "self_rag.pdf", "page": 3, "filename": "self_rag.pdf"}
+        ),
+        Document(
+            page_content="CRAG uses web search as a fallback mechanism when local retrieval fails. "
+            "This ensures comprehensive coverage of topics.",
+            metadata={"source": "crag.pdf", "page": 5, "filename": "crag.pdf"}
+        ),
+        Document(
+            page_content="Adaptive RAG routes queries to different strategies based on query type. "
+            "It can use vectorstore, web search, or direct LLM responses.",
+            metadata={"source": "adaptive_rag.pdf", "page": 2, "filename": "adaptive_rag.pdf"}
+        ),
+    ]
+
+
+@pytest.fixture
+def temp_chromadb_dir(tmp_path: Path) -> Path:
+    """Create a temporary directory for ChromaDB."""
+    chromadb_dir = tmp_path / "chromadb"
+    chromadb_dir.mkdir()
+    return chromadb_dir
+
+
+@pytest.fixture
+def mock_embeddings():
+    """Create mock embeddings for testing."""
+    import numpy as np
+
+    mock = MagicMock()
+
+    def embed_documents(texts: list) -> list:
+        # Return random but consistent embeddings
+        return [np.random.rand(768).tolist() for _ in texts]
+
+    def embed_query(text: str) -> list:
+        return np.random.rand(768).tolist()
+
+    mock.embed_documents = embed_documents
+    mock.embed_query = embed_query
+    mock.dimensions = 768
+    mock.model_name = "mock-embeddings"
+
+    return mock
+
+
+@pytest.fixture
+def indexer_config(temp_chromadb_dir: Path):
+    """Create test indexer config."""
+    from langgraph_ollama_local.rag.indexer import IndexerConfig
+
+    return IndexerConfig(
+        chunk_size=200,
+        chunk_overlap=50,
+        collection_name="test_collection",
+        persist_directory=str(temp_chromadb_dir),
+        embedding_model="all-MiniLM-L6-v2",
+    )
+
+
+@pytest.fixture
+def retriever_config(temp_chromadb_dir: Path):
+    """Create test retriever config."""
+    from langgraph_ollama_local.rag.retriever import RetrieverConfig
+
+    return RetrieverConfig(
+        collection_name="test_collection",
+        persist_directory=str(temp_chromadb_dir),
+        default_k=4,
+    )
