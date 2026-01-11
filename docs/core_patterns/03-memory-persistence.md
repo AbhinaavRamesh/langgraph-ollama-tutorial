@@ -232,7 +232,7 @@ print(result["messages"][-1].content)  # "Your name is Alice!"
 
 ## Graph Visualization
 
-![Memory Graph](images/03-memory-graph.png)
+![Memory Graph](./images/03-memory-graph.png)
 
 The graph structure is the same as Tutorial 01. The difference is in how it's compiled - with a checkpointer that saves state between calls.
 

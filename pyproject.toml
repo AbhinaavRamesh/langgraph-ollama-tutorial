@@ -50,11 +50,13 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# RAG dependencies - vector stores
+# RAG dependencies - vector stores and document processing
 rag = [
     "chromadb>=0.4.0",
     "faiss-cpu>=1.7.0",
     "sentence-transformers>=2.2.0",
+    "pypdf>=3.0.0",
+    "tavily-python>=0.3.0",  # Web search for CRAG
 ]
 
 # Persistence backends
@@ -100,7 +102,7 @@ Documentation = "https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial#rea
 langgraph-local = "langgraph_ollama_local.cli:main"
 
 [tool.setuptools]
-packages = ["langgraph_ollama_local"]
+packages = ["langgraph_ollama_local", "langgraph_ollama_local.rag"]
 
 [tool.setuptools.package-data]
 langgraph_ollama_local = ["py.typed"]

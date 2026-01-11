@@ -26,7 +26,7 @@ The research assistant combines:
 
 ### The Research Pipeline
 
-![Research Assistant Graph](images/07-research-assistant-graph.png)
+![Research Assistant Graph](./images/07-research-assistant-graph.png)
 
 The research assistant orchestrates planning, researching, analyzing, reflecting, and synthesizing into a complete pipeline.
 
@@ -303,7 +303,7 @@ print(result["report"])
 
 ## Graph Visualization
 
-![Research Assistant Graph](images/07-research-assistant-graph.png)
+![Research Assistant Graph](./images/07-research-assistant-graph.png)
 
 The graph shows the full research pipeline with conditional loops for gap-filling.
 

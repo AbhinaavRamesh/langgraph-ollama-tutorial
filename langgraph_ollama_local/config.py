@@ -27,9 +27,6 @@ from typing import TYPE_CHECKING, Any, Literal
 from pydantic import Field, computed_field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Import from ollama-local-serve
-from ollama_local_serve import NetworkConfig, create_langchain_chat_client
-
 if TYPE_CHECKING:
     from langchain_core.language_models import BaseChatModel
     from langgraph.checkpoint.base import BaseCheckpointSaver
@@ -78,7 +75,7 @@ class OllamaConfig(BaseSettings):
         description="Ollama server port",
     )
     model: str = Field(
-        default="llama3.2:3b",
+        default="llama3.1:8b",
         description="Default model for agents",
     )
     timeout: int = Field(
@@ -108,20 +105,6 @@ class OllamaConfig(BaseSettings):
     def base_url(self) -> str:
         """Get the base URL for the Ollama service."""
         return f"http://{self.host}:{self.port}"
-
-    def to_network_config(self) -> NetworkConfig:
-        """
-        Convert to ollama-local-serve NetworkConfig.
-
-        Returns:
-            NetworkConfig instance for use with ollama-local-serve functions.
-        """
-        return NetworkConfig(
-            host=self.host,
-            port=self.port,
-            timeout=self.timeout,
-            max_retries=self.max_retries,
-        )
 
 
 class LangGraphConfig(BaseSettings):
@@ -233,6 +216,8 @@ class LocalAgentConfig(BaseSettings):
             >>> llm = config.create_chat_client(model="llama3.2:7b")
             >>> response = llm.invoke("Hello!")
         """
+        from langchain_ollama import ChatOllama
+
         effective_model = model or self.ollama.model
         effective_temp = temperature if temperature is not None else self.ollama.temperature
 
@@ -241,8 +226,8 @@ class LocalAgentConfig(BaseSettings):
             f"model={effective_model} temp={effective_temp}"
         )
 
-        return create_langchain_chat_client(
-            config=self.ollama.to_network_config(),
+        return ChatOllama(
+            base_url=self.ollama.base_url,
             model=effective_model,
             temperature=effective_temp,
             num_ctx=self.ollama.num_ctx,

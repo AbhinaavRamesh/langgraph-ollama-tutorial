@@ -542,7 +542,7 @@ print(result["messages"][-1].content)
 
 ## Graph Visualization
 
-![ReAct Agent Graph](images/02-react-graph.png)
+![ReAct Agent Graph](./images/02-react-graph.png)
 
 The graph shows the ReAct loop:
 - Execution starts at `__start__`

@@ -26,7 +26,7 @@ ReAct agents (Tutorial 02) decide step-by-step, which works well for simple task
 
 ### The Pattern
 
-![Plan and Execute Graph](images/06-plan-execute-graph.png)
+![Plan and Execute Graph](./images/06-plan-execute-graph.png)
 
 The planner creates steps, the executor processes each one sequentially, and the finalizer combines results.
 
@@ -194,7 +194,7 @@ print(result["response"])
 
 ## Graph Visualization
 
-![Plan and Execute Graph](images/06-plan-execute-graph.png)
+![Plan and Execute Graph](./images/06-plan-execute-graph.png)
 
 Planner creates steps → Executor loops through each → Finalizer combines results.
 

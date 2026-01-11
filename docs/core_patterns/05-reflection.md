@@ -47,7 +47,7 @@ Single-shot LLM outputs are often good but not great. Through reflection:
 
 ### 1. The Reflection Loop
 
-![Reflection Graph](images/05-reflection-graph.png)
+![Reflection Graph](./images/05-reflection-graph.png)
 
 The graph cycles between generation and critique until approved or max iterations reached.
 
@@ -196,7 +196,7 @@ print(result["draft"])  # Final, refined output
 
 ## Graph Visualization
 
-![Reflection Graph](images/05-reflection-graph.png)
+![Reflection Graph](./images/05-reflection-graph.png)
 
 The graph cycles between generation and critique until approved or max iterations.
 

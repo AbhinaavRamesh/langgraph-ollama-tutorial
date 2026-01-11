@@ -284,7 +284,7 @@ print(result["messages"][-1].content)
 
 ## Graph Visualization
 
-![Basic Chatbot Graph](images/01-chatbot-graph.png)
+![Basic Chatbot Graph](./images/01-chatbot-graph.png)
 
 ---
 

@@ -163,7 +163,7 @@ if state.next:
 
 ## Graph Visualization
 
-![Human-in-the-Loop Graph](images/04-human-in-loop-graph.png)
+![Human-in-the-Loop Graph](./images/04-human-in-loop-graph.png)
 
 The graph pauses before the `tools` node, allowing human review of pending tool calls.
 
