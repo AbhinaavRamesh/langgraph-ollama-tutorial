@@ -7,45 +7,73 @@ description: Complete API reference for langgraph-ollama-local package
 
 Complete reference documentation for the `langgraph-ollama-local` package. All functions, classes, and patterns for building local AI agents with LangGraph and Ollama.
 
+::: tip Early Preview
+This documentation is in active development. If you encounter issues, please [report them on GitHub](https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial/issues).
+:::
+
 ## Quick Navigation
 
 <div class="api-nav-grid">
+<div class="api-card">
 
 ### [Configuration](/api/configuration)
+
 Setup and configuration for local LLMs and LangGraph
+
 - `LocalAgentConfig` - Main configuration class
 - `OllamaConfig` - Ollama server settings
 - `LangGraphConfig` - LangGraph execution settings
 - Environment variable reference
 
+</div>
+<div class="api-card">
+
 ### [RAG](/api/rag)
+
 Document loading, indexing, and retrieval
+
 - `DocumentLoader` - Multi-format document loading
 - `DocumentIndexer` - ChromaDB indexing pipeline
 - `LocalEmbeddings` - Local embedding models
 - Graders: Document, Hallucination, Answer, Query Router
 
+</div>
+<div class="api-card">
+
 ### [Multi-Agent](/api/agents)
+
 Multi-agent collaboration patterns
+
 - `create_multi_agent_graph()` - Supervisor-based coordination
 - `create_hierarchical_graph()` - Nested team structures
 - `MultiAgentState`, `TeamState`, `HierarchicalState`
 - Supervisor and team patterns
 
+</div>
+<div class="api-card">
+
 ### [Patterns](/api/patterns)
+
 Advanced multi-agent patterns
+
 - Swarm - Decentralized agent networks
 - Handoff - Peer-to-peer agent transfers
 - Map-Reduce - Parallel agent execution
 - Evaluation - Automated agent testing
 
+</div>
+<div class="api-card">
+
 ### [State Types](/api/types)
+
 TypedDict state schemas for all patterns
+
 - Multi-Agent states
 - Pattern-specific states
 - Custom state creation
 - Reducer reference
 
+</div>
 </div>
 
 ---
@@ -563,36 +591,36 @@ config = LocalAgentConfig(
   margin: 2rem 0;
 }
 
-.api-nav-grid > div {
+.api-card {
   padding: 1.5rem;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   background: var(--vp-c-bg-soft);
 }
 
-.api-nav-grid h3 {
+.api-card h3 {
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-size: 1.25rem;
 }
 
-.api-nav-grid h3 a {
+.api-card h3 a {
   text-decoration: none;
   color: var(--vp-c-brand);
 }
 
-.api-nav-grid p {
+.api-card p {
   margin: 0.5rem 0;
   font-size: 0.9rem;
   color: var(--vp-c-text-2);
 }
 
-.api-nav-grid ul {
+.api-card ul {
   margin: 0.75rem 0 0 0;
   padding-left: 1.25rem;
 }
 
-.api-nav-grid li {
+.api-card li {
   margin: 0.25rem 0;
   font-size: 0.875rem;
   color: var(--vp-c-text-2);

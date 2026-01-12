@@ -33,7 +33,7 @@ class DocumentLoader:
 
 Load a PDF file and extract text by page.
 
-```python:line-numbers {1}
+```python
 def load_pdf(self, file_path: str | Path) -> list[Document]
 ```
 

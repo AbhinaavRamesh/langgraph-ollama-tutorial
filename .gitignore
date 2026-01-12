@@ -211,3 +211,4 @@ Plan.md
 .checkpoints/
 *.local.py
 temp_*.py
+blog.md

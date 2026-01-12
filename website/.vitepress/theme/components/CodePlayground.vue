@@ -152,6 +152,73 @@ const copyCode = async () => {
 </template>
 
 <style scoped>
+.code-playground {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.playground-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--vp-c-bg-soft);
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.playground-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--vp-c-text-1);
+}
+
+.playground-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.playground-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 4px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.playground-btn:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.playground-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.playground-btn.run {
+  background: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  color: white;
+}
+
+.playground-btn.run:hover:not(:disabled) {
+  background: var(--vp-c-brand-2);
+}
+
+.playground-editor {
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
 .editor-textarea {
   width: 100%;
   min-height: 200px;
@@ -167,7 +234,22 @@ const copyCode = async () => {
 
 .editor-textarea:focus {
   outline: none;
-  border-color: var(--vp-c-brand-1);
+}
+
+.playground-output {
+  padding: 16px;
+  min-height: 60px;
+  background: var(--vp-c-bg-soft);
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.playground-output.loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--vp-c-brand-1);
 }
 
 .playground-output pre {
@@ -197,7 +279,7 @@ const copyCode = async () => {
 }
 
 .dark .playground-output {
-  background: #0d1117;
-  color: #e6edf3;
+  background: #161b22;
+  color: #8b949e;
 }
 </style>
