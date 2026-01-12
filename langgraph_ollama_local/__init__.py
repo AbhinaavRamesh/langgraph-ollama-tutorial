@@ -12,6 +12,11 @@ Example:
     >>> config = LocalAgentConfig()
     >>> llm = config.create_chat_client()
     >>> response = llm.invoke("Hello!")
+
+Multi-Agent Patterns (Phase 4):
+    >>> from langgraph_ollama_local.agents import create_multi_agent_graph
+    >>> graph = create_multi_agent_graph(llm)
+    >>> result = graph.invoke({"task": "Build a calculator", ...})
 """
 
 from langgraph_ollama_local.config import (
