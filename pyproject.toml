@@ -35,7 +35,7 @@ classifiers = [
 
 dependencies = [
     # Core dependency - your ollama infrastructure
-    "ollama-local-serve[langgraph] @ file:///Users/abhinaavramesh/Desktop/Explore/ollama-local-serve",
+    "ollama-local-serve[langgraph]>=0.2.0",
     # LangGraph essentials
     "langgraph>=0.2.0",
     "langgraph-checkpoint-sqlite>=2.0.0",
@@ -43,6 +43,8 @@ dependencies = [
     "langchain-community>=0.0.10",
     # Async support
     "aiohttp>=3.8.0",
+    # HTTP client
+    "httpx>=0.25.0",
     # Configuration
     "pydantic>=2.0.0",
     "pydantic-settings>=2.0.0",
@@ -102,7 +104,7 @@ Documentation = "https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial#rea
 langgraph-local = "langgraph_ollama_local.cli:main"
 
 [tool.setuptools]
-packages = ["langgraph_ollama_local", "langgraph_ollama_local.rag"]
+packages = ["langgraph_ollama_local", "langgraph_ollama_local.rag", "langgraph_ollama_local.agents", "langgraph_ollama_local.patterns"]
 
 [tool.setuptools.package-data]
 langgraph_ollama_local = ["py.typed"]
