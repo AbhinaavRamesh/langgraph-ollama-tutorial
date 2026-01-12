@@ -1,12 +1,27 @@
 #!/bin/bash
 # Build JupyterLite with tutorial notebooks
-
-set -e
+# Skip if pre-built notebooks already exist (for CI)
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WEBSITE_DIR="$(dirname "$SCRIPT_DIR")"
 PROJECT_ROOT="$(dirname "$WEBSITE_DIR")"
 OUTPUT_DIR="$WEBSITE_DIR/public/notebooks"
+
+# Check if pre-built notebooks already exist
+if [ -f "$OUTPUT_DIR/index.html" ]; then
+  echo "Pre-built JupyterLite notebooks found, skipping build."
+  echo "To rebuild, delete $OUTPUT_DIR first."
+  exit 0
+fi
+
+# Check if jupyter is available
+if ! command -v jupyter &> /dev/null; then
+  echo "Warning: jupyter not found. Skipping JupyterLite build."
+  echo "Pre-built notebooks should be committed to the repository."
+  exit 0
+fi
+
+set -e
 
 echo "Building JupyterLite..."
 echo "Output: $OUTPUT_DIR"
