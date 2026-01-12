@@ -5,6 +5,7 @@ export default withMermaid(
   defineConfig({
     title: 'LocalGraph',
     description: 'AI Agents 101 — Build, Learn & Experiment Locally',
+    base: '/langgraph-ollama-tutorial/',
 
     head: [
       ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
