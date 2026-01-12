@@ -1,0 +1,22 @@
+{
+  "jupyter-lite-schema-version": 0,
+  "jupyter-config-data": {
+    "appName": "LocalGraph Notebooks",
+    "appUrl": "/notebooks/",
+    "faviconUrl": "/logo.svg",
+    "disabledExtensions": [
+      "@jupyterlab/docmanager-extension:download",
+      "@jupyterlab/filebrowser-extension:download"
+    ],
+    "settingsOverrides": {
+      "@jupyterlab/apputils-extension:themes": {
+        "theme": "JupyterLab Dark"
+      },
+      "@jupyterlab/notebook-extension:tracker": {
+        "codeCellConfig": {
+          "lineNumbers": true
+        }
+      }
+    }
+  }
+}
