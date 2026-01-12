@@ -1,7 +1,10 @@
 ---
 name: Bug - Library
-description: Report a bug in the langgraph-ollama-local Python package
-labels: ["bug", "library"]
+about: Reporting bug in langgraph-ollama-local PyPi Library
+title: "[Bug][libs] - "
+labels: bug
+assignees: AbhinaavRamesh
+
 ---
 
 ### Description

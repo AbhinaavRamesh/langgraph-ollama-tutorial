@@ -1,7 +1,10 @@
 ---
 name: Request - New Tutorial
-description: Suggest a new tutorial topic
-labels: ["enhancement", "tutorial"]
+about: Request New Tutorial
+title: "[NEW] - "
+labels: enhancement
+assignees: AbhinaavRamesh
+
 ---
 
 ### Topic

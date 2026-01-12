@@ -1,7 +1,10 @@
 ---
 name: Request - Feature/Enhancement
-description: Suggest a new feature or improvement
-labels: ["enhancement"]
+about: Request Enhancement to Libs
+title: "[feat][libs]"
+labels: enhancement
+assignees: AbhinaavRamesh
+
 ---
 
 ### Feature
@@ -18,4 +21,3 @@ labels: ["enhancement"]
 
 ### Alternatives Considered
 <!-- Other approaches you thought about (optional) -->
-

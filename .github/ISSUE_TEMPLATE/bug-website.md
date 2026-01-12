@@ -1,7 +1,11 @@
 ---
 name: Bug - Website
-description: Report a bug in the documentation website
-labels: ["bug", "website"]
+about: Report bug in https://abhinaavramesh.github.io/langgraph-ollama-tutorial/ VitePress
+  Site
+title: "[BUG][SITE]"
+labels: bug
+assignees: AbhinaavRamesh
+
 ---
 
 ### Page
@@ -18,4 +22,3 @@ labels: ["bug", "website"]
 
 ### Browser
 <!-- e.g., Chrome 120, Safari 17, Firefox 121 -->
-
