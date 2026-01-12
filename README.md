@@ -2,6 +2,7 @@
 
 **Learn LangGraph by building agents that run entirely on your hardware.**
 
+[![PyPI version](https://img.shields.io/pypi/v/langgraph-ollama-local.svg)](https://pypi.org/project/langgraph-ollama-local/)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -36,11 +37,26 @@ A hands-on tutorial series for building LangGraph agents with local LLMs via Oll
 
 ### Installation
 
+**Option 1: Install from PyPI (Recommended)**
+
+```bash
+# Install the package
+pip install langgraph-ollama-local
+
+# With all features (RAG, persistence, notebooks)
+pip install langgraph-ollama-local[all]
+
+# Verify connection
+langgraph-local check
+```
+
+**Option 2: Install from source (for development)**
+
 ```bash
 git clone https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial.git
 cd langgraph-ollama-tutorial
 
-# Install with RAG dependencies
+# Install with all dependencies
 pip install -e ".[all]"
 
 # Verify connection
