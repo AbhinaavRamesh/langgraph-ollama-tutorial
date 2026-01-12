@@ -287,11 +287,6 @@ print(result["messages"][-1].content)
 
 ---
 
-## Graph Visualization
-
-
----
-
 ## Common Pitfalls
 
 ### 1. Forgetting the Reducer

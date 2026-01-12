@@ -133,7 +133,7 @@ export default withMermaid(
       },
 
       footer: {
-        message: 'Released under the MIT License.',
+        message: 'Early preview — <a href="https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial/issues" target="_blank">report issues on GitHub</a> · Released under the MIT License.',
         copyright: 'Made by <a href="https://abhinaavramesh.github.io/portfolio/" target="_blank">Abhinaav Ramesh</a>'
       },
 

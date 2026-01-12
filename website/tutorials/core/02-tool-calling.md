@@ -553,6 +553,16 @@ print(result["messages"][-1].content)
 
 ## Graph Visualization
 
+```mermaid
+graph TD
+    __start__([Start]) --> agent[Agent Node]
+    agent -->|tools called| tools[Tools Node]
+    tools --> agent
+    agent -->|no tools| __end__([End])
+
+    style agent fill:#e8f5e9,stroke:#4caf50
+    style tools fill:#fff3e0,stroke:#ff9800
+```
 
 The graph shows the ReAct loop:
 - Execution starts at `__start__`

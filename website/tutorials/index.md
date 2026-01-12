@@ -348,7 +348,7 @@ Complete all Core Patterns, then jump to Advanced Reasoning (21-25). These imple
 - [Setup Guide](./setup.md) - Installation and configuration
 - [GitHub Repository](https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial) - Source code and examples
 - [LangGraph Documentation](https://langchain-ai.github.io/langgraph/) - Official LangGraph docs
-- [Ollama Models](https://ollama.ai/library) - Browse available models
+- [Ollama Models](https://ollama.com/library) - Browse available models
 
 ## Need Help?
 

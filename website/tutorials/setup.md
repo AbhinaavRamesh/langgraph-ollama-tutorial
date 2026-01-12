@@ -119,11 +119,11 @@ For minimal setup without monitoring features:
 
 **macOS and Linux:**
 ```bash
-curl -fsSL https://ollama.ai/install.sh | sh
+curl -fsSL https://ollama.com/install.sh | sh
 ```
 
 **Windows:**
-Download the installer from [ollama.ai](https://ollama.ai/download)
+Download the installer from [ollama.com](https://ollama.com/download)
 
 **Verify Ollama is Running:**
 
