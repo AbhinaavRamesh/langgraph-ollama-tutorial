@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <style>
+    @keyframes rotate {
+      0% { transform: rotate(0deg); transform-origin: 64px 64px; }
+      100% { transform: rotate(360deg); transform-origin: 64px 64px; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.85; }
+      50% { opacity: 1; }
+    }
+    .gradient-spin {
+      animation: rotate 8s linear infinite;
+    }
+    .node-glow {
+      animation: pulse 2s ease-in-out infinite;
+    }
+  </style>
+
+  <defs>
+    <!-- Animated gradient -->
+    <linearGradient id="animGrad" x1="0%" y1="0%" x2="100%" y2="100%" class="gradient-spin">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="50%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <!-- Static gradients for nodes -->
+    <linearGradient id="nodeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <!-- Subtle shadow -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Equilateral triangle: top (64,26), bottom-left (24,96), bottom-right (104,96) -->
+
+  <!-- Edge connections (behind nodes) -->
+  <g stroke-width="3.5" stroke-linecap="round" fill="none">
+    <!-- Top to bottom-left -->
+    <line x1="54" y1="38" x2="34" y2="84" stroke="url(#nodeGrad1)"/>
+    <!-- Top to bottom-right -->
+    <line x1="74" y1="38" x2="94" y2="84" stroke="url(#nodeGrad2)"/>
+    <!-- Bottom-left to bottom-right -->
+    <line x1="38" y1="96" x2="90" y2="96" stroke="#0d9668"/>
+  </g>
+
+  <!-- Top node -->
+  <g filter="url(#glow)">
+    <circle cx="64" cy="26" r="15" fill="url(#nodeGrad1)" class="node-glow"/>
+    <circle cx="64" cy="26" r="7" fill="white" opacity="0.9"/>
+  </g>
+
+  <!-- Bottom-left node -->
+  <g filter="url(#glow)">
+    <circle cx="24" cy="96" r="14" fill="#10b981" class="node-glow" style="animation-delay: 0.3s"/>
+    <circle cx="24" cy="96" r="6.5" fill="white" opacity="0.9"/>
+  </g>
+
+  <!-- Bottom-right node -->
+  <g filter="url(#glow)">
+    <circle cx="104" cy="96" r="14" fill="#059669" class="node-glow" style="animation-delay: 0.6s"/>
+    <circle cx="104" cy="96" r="6.5" fill="white" opacity="0.9"/>
+  </g>
+</svg>
