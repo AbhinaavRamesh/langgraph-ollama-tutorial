@@ -666,7 +666,7 @@ Once everything is installed and verified:
 
 - Check [GitHub Issues](https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial/issues) for known problems
 - Ask in [GitHub Discussions](https://github.com/AbhinaavRamesh/langgraph-ollama-tutorial/discussions)
-- Review the [FAQ section](../faq.md) (coming soon)
+- FAQ section (coming soon)
 
 ---
 
